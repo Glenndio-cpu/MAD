@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import Logo from '../../assets/GeFiBra Cafe Logo 1 (1).svg';
-import CappucinoSVG from '../../assets/Cappucino.svg';
-import LatteSVG from '../../assets/Latte.svg';
-import AmericanoSVG from '../../assets/Americano 1.svg';
+import StrawberrySquashSVG from '../../assets/Strawberry Squash 1.svg';
+import MangoSmoothieSVG from '../../assets/Mango Smoothie 1.svg';
+import CaramelMacchiatoSVG from '../../assets/Iced caramel macchiato 1.svg';
 import CustomerSVG from '../../assets/Customer.svg';
 import MenuSVG from '../../assets/Menu.svg';
 import SoloCupSVG from '../../assets/Solo Cup.svg';
@@ -12,24 +12,30 @@ const { width } = Dimensions.get('window');
 
 const menuData = [
   {
-    name: 'Cappucino',
+    name: 'Strawberry Squash',
     price: 'Rp 28.000,-',
-    Svg: CappucinoSVG,
+    Svg: StrawberrySquashSVG,
+    type: 'Other',
   },
   {
-    name: 'Latte',
+    name: 'Mango Smoothie',
     price: 'Rp 28.000,-',
-    Svg: LatteSVG,
+    Svg: MangoSmoothieSVG,
+    type: 'Other',
   },
   {
-    name: 'Americano',
+    name: 'Caramel Macchiato',
     price: 'Rp 28.000,-',
-    Svg: AmericanoSVG,
+    Svg: CaramelMacchiatoSVG,
+    type: 'Other',
   },
 ];
 
-const CoffeMenu = ({ navigation }) => {
-  const [selectedTab, setSelectedTab] = useState('Coffe');
+const tabLabels = ['All', 'Coffe', 'Tea', 'Other'];
+const tabWidth = (width - 48) / 4;
+
+const OtherMenu = ({ navigation }) => {
+  const [selectedTab, setSelectedTab] = useState('Other');
 
   return (
     <View style={styles.root}>
@@ -37,14 +43,14 @@ const CoffeMenu = ({ navigation }) => {
       <TouchableOpacity style={styles.backButton} onPress={() => navigation && navigation.navigate('AllMenu')}>
         <Text style={styles.backIcon}>{'<'}</Text>
       </TouchableOpacity>
-      {/* Header (logo dan judul di tengah, lebih ke bawah) */}
+      {/* Header */}
       <View style={styles.headerWrapper}>
         <Logo width={55} height={55} style={styles.logo} />
         <Text style={styles.headerTitle}>Menu</Text>
       </View>
       {/* Tabs */}
       <View style={styles.tabs}>
-        {['All', 'Coffe', 'Tea', 'Other'].map((tab, idx) => (
+        {tabLabels.map((tab, idx) => (
           <TouchableOpacity
             key={tab}
             style={[
@@ -55,18 +61,16 @@ const CoffeMenu = ({ navigation }) => {
             onPress={() => {
               if (tab === 'All') {
                 navigation && navigation.navigate('AllMenu');
+              } else if (tab === 'Coffe') {
+                navigation && navigation.navigate('CoffeMenu');
               } else if (tab === 'Tea') {
                 navigation && navigation.navigate('TeaMenu');
-              } else if (tab === 'Other') {
-                navigation && navigation.navigate('OtherMenu');
               } else {
                 setSelectedTab(tab);
               }
             }}
           >
-            <Text style={[styles.tabText, selectedTab === tab && styles.tabTextActive]}>
-              {tab}
-            </Text>
+            <Text style={[styles.tabText, selectedTab === tab && styles.tabTextActive]}>{tab}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -104,10 +108,7 @@ const CoffeMenu = ({ navigation }) => {
   );
 };
 
-export default CoffeMenu;
-
-const tabLabels = ['All', 'Coffe', 'Tea', 'Other'];
-const tabWidth = (width - 48) / 4; // 24px padding kiri-kanan, 4 tab
+export default OtherMenu;
 
 const styles = StyleSheet.create({
   root: {
@@ -178,7 +179,6 @@ const styles = StyleSheet.create({
     width: width - 32,
     padding: 12,
     shadowColor: '#000',
-    // elevation: 1, // dihapus agar tidak ada bayangan berlebih
   },
   menuImage: {
     borderRadius: 16,
@@ -226,4 +226,4 @@ const styles = StyleSheet.create({
     marginTop: 6,
     paddingHorizontal: 24,
   },
-});
+}); 
