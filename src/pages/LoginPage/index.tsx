@@ -35,7 +35,7 @@ const LoginPage = ({ navigation }) => {
         />
       </View>
       {/* Sign In Button */}
-      <TouchableOpacity style={styles.button} onPress={() => navigation && navigation.navigate('CoffeMenu')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation && navigation.navigate('AllMenu')}>
         <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
       {/* Create New Account Link */}
