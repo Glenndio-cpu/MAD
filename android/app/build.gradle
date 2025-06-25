@@ -117,3 +117,8 @@ dependencies {
         implementation jscFlavor
     }
 }
+<<<<<<< HEAD
+=======
+
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+>>>>>>> 8508e3a (Menambahkan Halaman, Slicing dan Navigasi Antar Halaman)
