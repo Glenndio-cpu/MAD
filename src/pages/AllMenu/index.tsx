@@ -138,6 +138,22 @@ const AllMenu = ({ navigation }) => {
                   <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('CaramelMacchiatoDescription')}>
                     <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
                   </TouchableOpacity>
+                ) : item.name === 'Latte' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('LatteDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                ) : item.name === 'GreenTea' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('GreenTeaDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                ) : item.name === 'Iced Lychee Tea' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('IcedLycheeTeaDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                ) : item.name === 'Mango Smoothie' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('MangoSmoothieDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
                 ) : (
                   <TouchableOpacity style={styles.menuButton}>
                     <Text style={styles.menuButtonText}>Masukan Pesanan</Text>

@@ -98,6 +98,10 @@ const CoffeMenu = ({ navigation }) => {
                   <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('IcedLemonTeaDescription')}>
                     <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
                   </TouchableOpacity>
+                ) : item.name === 'Latte' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('LatteDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
                 ) : (
                   <TouchableOpacity style={styles.menuButton}>
                     <Text style={styles.menuButtonText}>Masukan Pesanan</Text>

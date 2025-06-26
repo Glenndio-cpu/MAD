@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import LycheeTeaSVG from '../../assets/Lechye Tea 1.svg';
+import IcedLycheeTeaSVG from '../../assets/Lechye Tea 1.svg';
 import SoloCupSVG from '../../assets/Solo Cup.svg';
 import MenuSVG from '../../assets/Menu.svg';
 import CustomerSVG from '../../assets/Customer.svg';
@@ -24,11 +24,11 @@ const IcedLycheeTeaDescription: React.FC<Props> = ({ navigation }) => {
       <Logo width={120} height={80} style={styles.logo} />
       {/* Title */}
       <Text style={styles.title}>Iced Lychee Tea</Text>
-      {/* Lychee Tea SVG */}
-      <LycheeTeaSVG width={110} height={110} style={styles.coffeePhoto} />
+      {/* Iced Lychee Tea SVG */}
+      <IcedLycheeTeaSVG width={110} height={110} style={styles.coffeePhoto} />
       {/* Price Section */}
       <Text style={styles.priceLabel}>Harga:</Text>
-      <Text style={styles.priceValue}>Rp 28.000,-</Text>
+      <Text style={styles.priceValue}>Rp 25.000,-</Text>
       {/* Order Button */}
       <TouchableOpacity style={styles.orderButton} onPress={() => navigation.navigate('Closing')}>
         <Text style={styles.orderButtonText}>Pesan{"\n"}Sekarang</Text>

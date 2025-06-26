@@ -84,9 +84,19 @@ const TeaMenu = ({ navigation }) => {
               <View style={styles.menuContent}>
                 <Text style={styles.menuName}>{item.name}</Text>
                 <Text style={styles.menuPrice}>{item.price}</Text>
-                <TouchableOpacity style={styles.menuButton}>
-                  <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
-                </TouchableOpacity>
+                {item.name === 'GreenTea' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('GreenTeaDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                ) : item.name === 'Iced Lychee Tea' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('IcedLycheeTeaDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity style={styles.menuButton}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           );

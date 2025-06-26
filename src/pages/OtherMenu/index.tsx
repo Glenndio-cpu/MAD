@@ -92,6 +92,10 @@ const OtherMenu = ({ navigation }) => {
                   <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('CaramelMacchiatoDescription')}>
                     <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
                   </TouchableOpacity>
+                ) : item.name === 'Mango Smoothie' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('MangoSmoothieDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
                 ) : (
                   <TouchableOpacity style={styles.menuButton}>
                     <Text style={styles.menuButtonText}>Masukan Pesanan</Text>

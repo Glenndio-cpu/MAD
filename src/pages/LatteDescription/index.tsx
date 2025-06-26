@@ -28,7 +28,7 @@ const LatteDescription: React.FC<Props> = ({ navigation }) => {
       <LatteSVG width={110} height={110} style={styles.coffeePhoto} />
       {/* Price Section */}
       <Text style={styles.priceLabel}>Harga:</Text>
-      <Text style={styles.priceValue}>Rp 28.000,-</Text>
+      <Text style={styles.priceValue}>Rp 30.000,-</Text>
       {/* Order Button */}
       <TouchableOpacity style={styles.orderButton} onPress={() => navigation.navigate('Closing')}>
         <Text style={styles.orderButtonText}>Pesan{"\n"}Sekarang</Text>

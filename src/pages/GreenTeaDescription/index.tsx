@@ -23,12 +23,12 @@ const GreenTeaDescription: React.FC<Props> = ({ navigation }) => {
       {/* Logo */}
       <Logo width={120} height={80} style={styles.logo} />
       {/* Title */}
-      <Text style={styles.title}>GreenTea</Text>
-      {/* GreenTea SVG */}
+      <Text style={styles.title}>Green Tea</Text>
+      {/* Green Tea SVG */}
       <GreenTeaSVG width={110} height={110} style={styles.coffeePhoto} />
       {/* Price Section */}
       <Text style={styles.priceLabel}>Harga:</Text>
-      <Text style={styles.priceValue}>Rp 28.000,-</Text>
+      <Text style={styles.priceValue}>Rp 27.000,-</Text>
       {/* Order Button */}
       <TouchableOpacity style={styles.orderButton} onPress={() => navigation.navigate('Closing')}>
         <Text style={styles.orderButtonText}>Pesan{"\n"}Sekarang</Text>
