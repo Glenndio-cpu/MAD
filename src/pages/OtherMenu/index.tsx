@@ -84,9 +84,23 @@ const OtherMenu = ({ navigation }) => {
               <View style={styles.menuContent}>
                 <Text style={styles.menuName}>{item.name}</Text>
                 <Text style={styles.menuPrice}>{item.price}</Text>
-                <TouchableOpacity style={styles.menuButton}>
-                  <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
-                </TouchableOpacity>
+                {item.name === 'Strawberry Squash' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('StrawberrySquashDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                ) : item.name === 'Caramel Macchiato' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('CaramelMacchiatoDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                ) : item.name === 'Mango Smoothie' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('MangoSmoothieDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity style={styles.menuButton}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           );
@@ -97,10 +111,10 @@ const OtherMenu = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation && navigation.navigate('AllMenu')}>
           <SoloCupSVG width={38} height={38} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation && navigation.navigate('RiwayatPesanan')}>
           <MenuSVG width={38} height={38} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation && navigation.navigate('Profile')}>
           <CustomerSVG width={38} height={38} />
         </TouchableOpacity>
       </View>

@@ -7,6 +7,7 @@ import AmericanoSVG from '../../assets/Americano 1.svg';
 import CustomerSVG from '../../assets/Customer.svg';
 import MenuSVG from '../../assets/Menu.svg';
 import SoloCupSVG from '../../assets/Solo Cup.svg';
+import LemonTeaSVG from '../../assets/Lemon Tea 1 (1).svg';
 
 const { width } = Dimensions.get('window');
 
@@ -25,6 +26,11 @@ const menuData = [
     name: 'Americano',
     price: 'Rp 28.000,-',
     Svg: AmericanoSVG,
+  },
+  {
+    name: 'Iced Lemon Tea',
+    price: 'Rp 28.000,-',
+    Svg: LemonTeaSVG,
   },
 ];
 
@@ -80,9 +86,27 @@ const CoffeMenu = ({ navigation }) => {
               <View style={styles.menuContent}>
                 <Text style={styles.menuName}>{item.name}</Text>
                 <Text style={styles.menuPrice}>{item.price}</Text>
-                <TouchableOpacity style={styles.menuButton}>
-                  <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
-                </TouchableOpacity>
+                {item.name === 'Cappucino' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('CappucinoDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                ) : item.name === 'Americano' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('AmericanoDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                ) : item.name === 'Iced Lemon Tea' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('IcedLemonTeaDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                ) : item.name === 'Latte' ? (
+                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('LatteDescription')}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity style={styles.menuButton}>
+                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           );
@@ -93,10 +117,10 @@ const CoffeMenu = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation && navigation.navigate('AllMenu')}>
           <SoloCupSVG width={38} height={38} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation && navigation.navigate('RiwayatPesanan')}>
           <MenuSVG width={38} height={38} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation && navigation.navigate('Profile')}>
           <CustomerSVG width={38} height={38} />
         </TouchableOpacity>
       </View>

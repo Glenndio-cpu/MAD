@@ -1,25 +1,25 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Logo from '../../assets/GeFiBra Cafe Logo 1 (1).svg';
 
-const { width } = Dimensions.get('window');
+interface Props {
+  navigation: any;
+}
 
-const Closing = () => {
+const Closing: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.root}>
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.backButton}>
-          <Text style={styles.backIcon}>{'<'}</Text>
-        </TouchableOpacity>
-        <Logo width={width * 0.22} height={width * 0.22} style={styles.logo} />
-        <Text style={styles.thankyou}>Thankyou{"\n"}For Order!</Text>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Riwayat Pesanan</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Pesan Lagi</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Text style={styles.backIcon}>{'<'}</Text>
+      </TouchableOpacity>
+      <Logo width={110} height={80} style={styles.logo} />
+      <Text style={styles.thankyou}>Thankyou{"\n"}For Order!</Text>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('RiwayatPesanan')}>
+        <Text style={styles.buttonText}>Riwayat Pesanan</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AllMenu')}>
+        <Text style={styles.buttonText}>Pesan Lagi</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -32,51 +32,44 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF6EB',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  container: {
-    width: '90%',
-    maxWidth: 400,
-    borderRadius: 12,
-    alignItems: 'center',
-    paddingVertical: width * 0.08,
-    paddingHorizontal: width * 0.05,
-    position: 'relative',
+    paddingHorizontal: 24,
   },
   backButton: {
     position: 'absolute',
-    top: width * 0.04,
-    left: width * 0.04,
+    top: 24,
+    left: 16,
     zIndex: 2,
   },
   backIcon: {
-    fontSize: width * 0.06,
+    fontSize: 24,
     color: '#8B4513',
     fontWeight: 'bold',
   },
   logo: {
-    marginTop: width * 0.04,
-    marginBottom: width * 0.025,
+    marginBottom: 18,
+    alignSelf: 'center',
   },
   thankyou: {
-    fontSize: width * 0.055,
+    fontSize: 32,
     color: '#A0522D',
     fontFamily: 'Poppins-Bold',
     textAlign: 'center',
-    marginVertical: width * 0.045,
+    marginVertical: 24,
     fontWeight: 'bold',
   },
   button: {
     backgroundColor: '#A0522D',
-    borderRadius: 8,
-    paddingVertical: width * 0.035,
-    paddingHorizontal: 18,
-    marginTop: 10,
-    width: '90%',
+    borderRadius: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    marginTop: 14,
+    width: 240,
     alignItems: 'center',
   },
   buttonText: {
     color: '#FFF',
-    fontSize: width * 0.045,
+    fontSize: 18,
     fontFamily: 'Poppins-Medium',
+    textAlign: 'center',
   },
 }); 

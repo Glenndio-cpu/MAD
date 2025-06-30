@@ -1,20 +1,90 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, Image, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type RootStackParamList = {
+  TabelNumber: undefined;
+  // ... other routes
+};
 
 const { width } = Dimensions.get('window');
 
+const PROFILE_IMAGE_KEY = 'PROFILE_IMAGE_URI';
+
 const Profile = () => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  // Ambil foto profil dari AsyncStorage saat mount
+  useEffect(() => {
+    const loadProfileImage = async () => {
+      const uri = await AsyncStorage.getItem(PROFILE_IMAGE_KEY);
+      if (uri) setProfileImage(uri);
+    };
+    loadProfileImage();
+  }, []);
+
+  // Simpan foto profil ke AsyncStorage
+  const saveProfileImage = async (uri: string) => {
+    setProfileImage(uri);
+    await AsyncStorage.setItem(PROFILE_IMAGE_KEY, uri);
+  };
+
+  const pickImage = () => {
+    Alert.alert(
+      'Pilih Foto',
+      'Ambil foto dari kamera atau pilih dari gallery?',
+      [
+        {
+          text: 'Kamera',
+          onPress: () => {
+            launchCamera({ mediaType: 'photo', quality: 0.7 }, (response) => {
+              if (response.didCancel) return;
+              if (response.assets && response.assets.length > 0) {
+                const uri = response.assets[0].uri || '';
+                if (uri) saveProfileImage(uri);
+              }
+            });
+          },
+        },
+        {
+          text: 'Gallery',
+          onPress: () => {
+            launchImageLibrary({ mediaType: 'photo', quality: 0.7 }, (response) => {
+              if (response.didCancel) return;
+              if (response.assets && response.assets.length > 0) {
+                const uri = response.assets[0].uri || '';
+                if (uri) saveProfileImage(uri);
+              }
+            });
+          },
+        },
+        { text: 'Batal', style: 'cancel' },
+      ]
+    );
+  };
+
   return (
     <View style={styles.root}>
-      <TouchableOpacity style={styles.backButton}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation && navigation.goBack()}>
         <Text style={styles.backIcon}>{'<'}</Text>
       </TouchableOpacity>
       <Text style={styles.title}>Your Account</Text>
-      <View style={styles.iconWrapper}>
-        <Text style={styles.userIcon}>{'\u{1F464}'}</Text>
-      </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.iconWrapper} onPress={pickImage}>
+        {profileImage ? (
+          <Image source={{ uri: profileImage }} style={styles.profileImage} />
+        ) : (
+          <Text style={styles.userIcon}>{'\u{1F464}'}</Text>
+        )}
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('TabelNumber')}>
         <Text style={styles.buttonText}>Log Out</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={pickImage}>
+        <Text style={styles.buttonText}>Pilih Foto dari Gallery</Text>
       </TouchableOpacity>
     </View>
   );
@@ -58,11 +128,18 @@ const styles = StyleSheet.create({
     height: width * 0.22,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: 12,
+    overflow: 'hidden',
   },
   userIcon: {
     color: '#FFF',
     fontSize: width * 0.13,
+  },
+  profileImage: {
+    width: width * 0.22,
+    height: width * 0.22,
+    borderRadius: 12,
+    resizeMode: 'cover',
   },
   button: {
     backgroundColor: '#A0522D',

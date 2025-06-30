@@ -28,7 +28,7 @@ const RiwayatPesanan = ({ navigation }) => {
         </View>
       </View>
       {/* Ambil Button */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LoginPage')}>
         <Text style={styles.buttonText}>Ambil</Text>
       </TouchableOpacity>
     </View>

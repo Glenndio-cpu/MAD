@@ -1,10 +1,32 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions, Alert } from 'react-native';
 import Logo from '../../assets/GeFiBra Cafe Logo 1 (1).svg';
+import { auth } from '../../config';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const { width } = Dimensions.get('window');
 
 const LoginPage = ({ navigation }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSignIn = async () => {
+    if (!email.trim() || !password.trim()) {
+      Alert.alert('Error', 'Email dan password harus diisi');
+      return;
+    }
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      setLoading(false);
+      navigation && navigation.navigate('CoffeMenu');
+    } catch (error) {
+      setLoading(false);
+      Alert.alert('Login Gagal', error.message || 'Email atau password salah');
+    }
+  };
+
   return (
     <View style={styles.root}>
       {/* Back Button */}
@@ -15,13 +37,17 @@ const LoginPage = ({ navigation }) => {
       <Logo width={width * 0.25} height={width * 0.25} style={styles.logo} />
       {/* Title */}
       <Text style={styles.title}>Sign In</Text>
-      {/* Username */}
+      {/* Email */}
       <View style={styles.inputGroup}>
-        <Text style={styles.label}>Username:</Text>
+        <Text style={styles.label}>Email:</Text>
         <TextInput
           style={styles.input}
-          placeholder="Masukan Username"
+          placeholder="Masukan Email"
           placeholderTextColor="#A0522D"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
         />
       </View>
       {/* Password */}
@@ -31,12 +57,14 @@ const LoginPage = ({ navigation }) => {
           style={styles.input}
           placeholder="Masukan Password"
           placeholderTextColor="#A0522D"
+          value={password}
+          onChangeText={setPassword}
           secureTextEntry
         />
       </View>
       {/* Sign In Button */}
-      <TouchableOpacity style={styles.button} onPress={() => navigation && navigation.navigate('AllMenu')}>
-        <Text style={styles.buttonText}>Sign In</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSignIn} disabled={loading}>
+        <Text style={styles.buttonText}>{loading ? 'Loading...' : 'Sign In'}</Text>
       </TouchableOpacity>
       {/* Create New Account Link */}
       <TouchableOpacity onPress={() => navigation && navigation.navigate('SingUp')}>
