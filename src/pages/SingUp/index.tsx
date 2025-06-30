@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions, Alert 
 import Logo from '../../assets/GeFiBra Cafe Logo 1 (1).svg';
 import { auth } from '../../config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
@@ -24,6 +25,7 @@ const SingUp = ({ navigation }: { navigation: any }) => {
     setLoading(true);
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      await AsyncStorage.setItem('USERNAME', username);
       setLoading(false);
       Alert.alert('Sukses', 'Akun berhasil dibuat!', [
         { text: 'OK', onPress: () => navigation && navigation.navigate('LoginPage') }

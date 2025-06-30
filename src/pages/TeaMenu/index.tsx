@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import Logo from '../../assets/GeFiBra Cafe Logo 1 (1).svg';
 import GreenTeaSVG from '../../assets/GreenTea 1.svg';
@@ -7,25 +7,26 @@ import LemonTeaSVG from '../../assets/Lemon Tea 1 (1).svg';
 import CustomerSVG from '../../assets/Customer.svg';
 import MenuSVG from '../../assets/Menu.svg';
 import SoloCupSVG from '../../assets/Solo Cup.svg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
 const menuData = [
   {
     name: 'GreenTea',
-    price: 'Rp 28.000,-',
+    price: 'Rp 25.000,-',
     Svg: GreenTeaSVG,
     type: 'Tea',
   },
   {
     name: 'Iced Lychee Tea',
-    price: 'Rp 28.000,-',
+    price: 'Rp 27.000,-',
     Svg: LechyeTeaSVG,
     type: 'Tea',
   },
   {
     name: 'Iced Lemon Tea',
-    price: 'Rp 28.000,-',
+    price: 'Rp 24.000,-',
     Svg: LemonTeaSVG,
     type: 'Tea',
   },
@@ -36,6 +37,13 @@ const tabWidth = (width - 48) / 4;
 
 const TeaMenu = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState('Tea');
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    AsyncStorage.getItem('USERNAME').then(name => {
+      if (name) setUsername(name);
+    });
+  }, []);
 
   return (
     <View style={styles.root}>
@@ -46,6 +54,11 @@ const TeaMenu = ({ navigation }) => {
       {/* Header */}
       <View style={styles.headerWrapper}>
         <Logo width={55} height={55} style={styles.logo} />
+        {username ? (
+          <Text style={styles.welcomeText}>
+            Welcome, <Text style={styles.usernameDark}>{username}</Text>!
+          </Text>
+        ) : null}
         <Text style={styles.headerTitle}>Menu</Text>
       </View>
       {/* Tabs */}
@@ -153,6 +166,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 8,
+  },
+  welcomeText: {
+    fontSize: 18,
+    color: '#A0522D',
+    fontFamily: 'Poppins-Medium',
+    marginTop: 4,
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  usernameDark: {
+    color: '#4B2E09',
+    fontWeight: 'bold',
   },
   tabs: {
     flexDirection: 'row',

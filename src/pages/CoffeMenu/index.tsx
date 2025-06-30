@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import Logo from '../../assets/GeFiBra Cafe Logo 1 (1).svg';
 import CappucinoSVG from '../../assets/Cappucino.svg';
@@ -8,6 +8,7 @@ import CustomerSVG from '../../assets/Customer.svg';
 import MenuSVG from '../../assets/Menu.svg';
 import SoloCupSVG from '../../assets/Solo Cup.svg';
 import LemonTeaSVG from '../../assets/Lemon Tea 1 (1).svg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
@@ -19,23 +20,25 @@ const menuData = [
   },
   {
     name: 'Latte',
-    price: 'Rp 28.000,-',
+    price: 'Rp 30.000,-',
     Svg: LatteSVG,
   },
   {
     name: 'Americano',
-    price: 'Rp 28.000,-',
+    price: 'Rp 22.000,-',
     Svg: AmericanoSVG,
-  },
-  {
-    name: 'Iced Lemon Tea',
-    price: 'Rp 28.000,-',
-    Svg: LemonTeaSVG,
   },
 ];
 
 const CoffeMenu = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState('Coffe');
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    AsyncStorage.getItem('USERNAME').then(name => {
+      if (name) setUsername(name);
+    });
+  }, []);
 
   return (
     <View style={styles.root}>
@@ -46,6 +49,11 @@ const CoffeMenu = ({ navigation }) => {
       {/* Header (logo dan judul di tengah, lebih ke bawah) */}
       <View style={styles.headerWrapper}>
         <Logo width={55} height={55} style={styles.logo} />
+        {username ? (
+          <Text style={styles.welcomeText}>
+            Welcome, <Text style={styles.usernameDark}>{username}</Text>!
+          </Text>
+        ) : null}
         <Text style={styles.headerTitle}>Menu</Text>
       </View>
       {/* Tabs */}
@@ -92,10 +100,6 @@ const CoffeMenu = ({ navigation }) => {
                   </TouchableOpacity>
                 ) : item.name === 'Americano' ? (
                   <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('AmericanoDescription')}>
-                    <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
-                  </TouchableOpacity>
-                ) : item.name === 'Iced Lemon Tea' ? (
-                  <TouchableOpacity style={styles.menuButton} onPress={() => navigation && navigation.navigate('IcedLemonTeaDescription')}>
                     <Text style={styles.menuButtonText}>Masukan Pesanan</Text>
                   </TouchableOpacity>
                 ) : item.name === 'Latte' ? (
@@ -166,6 +170,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 8,
+  },
+  welcomeText: {
+    fontSize: 18,
+    color: '#A0522D',
+    fontFamily: 'Poppins-Medium',
+    marginTop: 4,
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  usernameDark: {
+    color: '#4B2E09',
+    fontWeight: 'bold',
   },
   tabs: {
     flexDirection: 'row',

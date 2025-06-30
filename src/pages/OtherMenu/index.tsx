@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import Logo from '../../assets/GeFiBra Cafe Logo 1 (1).svg';
 import StrawberrySquashSVG from '../../assets/Strawberry Squash 1.svg';
@@ -7,25 +7,26 @@ import CaramelMacchiatoSVG from '../../assets/Iced caramel macchiato 1.svg';
 import CustomerSVG from '../../assets/Customer.svg';
 import MenuSVG from '../../assets/Menu.svg';
 import SoloCupSVG from '../../assets/Solo Cup.svg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
 const menuData = [
   {
     name: 'Strawberry Squash',
-    price: 'Rp 28.000,-',
+    price: 'Rp 26.000,-',
     Svg: StrawberrySquashSVG,
     type: 'Other',
   },
   {
     name: 'Mango Smoothie',
-    price: 'Rp 28.000,-',
+    price: 'Rp 29.000,-',
     Svg: MangoSmoothieSVG,
     type: 'Other',
   },
   {
     name: 'Caramel Macchiato',
-    price: 'Rp 28.000,-',
+    price: 'Rp 32.000,-',
     Svg: CaramelMacchiatoSVG,
     type: 'Other',
   },
@@ -36,6 +37,13 @@ const tabWidth = (width - 48) / 4;
 
 const OtherMenu = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState('Other');
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    AsyncStorage.getItem('USERNAME').then(name => {
+      if (name) setUsername(name);
+    });
+  }, []);
 
   return (
     <View style={styles.root}>
@@ -46,6 +54,11 @@ const OtherMenu = ({ navigation }) => {
       {/* Header */}
       <View style={styles.headerWrapper}>
         <Logo width={55} height={55} style={styles.logo} />
+        {username ? (
+          <Text style={styles.welcomeText}>
+            Welcome, <Text style={styles.usernameDark}>{username}</Text>!
+          </Text>
+        ) : null}
         <Text style={styles.headerTitle}>Menu</Text>
       </View>
       {/* Tabs */}
@@ -157,6 +170,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 8,
+  },
+  welcomeText: {
+    fontSize: 18,
+    color: '#A0522D',
+    fontFamily: 'Poppins-Medium',
+    marginTop: 4,
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  usernameDark: {
+    color: '#4B2E09',
+    fontWeight: 'bold',
   },
   tabs: {
     flexDirection: 'row',

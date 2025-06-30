@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from './src/pages/SplashScreen';
 import SplashScreen2 from './src/pages/SplashScreen2'; 
 import Homepage from './src/pages/HomePage';
@@ -24,7 +24,7 @@ import GreenTeaDescription from './src/pages/GreenTeaDescription';
 import IcedLycheeTeaDescription from './src/pages/IcedLycheeTeaDescription';
 import MangoSmoothieDescription from './src/pages/MangoSmoothieDescription';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const App = () => (
   <NavigationContainer>

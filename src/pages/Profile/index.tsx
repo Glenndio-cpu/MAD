@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions, Image, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, Image, Alert, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
@@ -17,14 +17,24 @@ const PROFILE_IMAGE_KEY = 'PROFILE_IMAGE_URI';
 const Profile = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
+  const [usernameInput, setUsernameInput] = useState('');
+  const [editingUsername, setEditingUsername] = useState(false);
 
   // Ambil foto profil dari AsyncStorage saat mount
   useEffect(() => {
-    const loadProfileImage = async () => {
+    const loadProfileData = async () => {
       const uri = await AsyncStorage.getItem(PROFILE_IMAGE_KEY);
       if (uri) setProfileImage(uri);
+      const storedUsername = await AsyncStorage.getItem('USERNAME');
+      if (storedUsername) {
+        setUsername(storedUsername);
+        setEditingUsername(false);
+      } else {
+        setEditingUsername(true);
+      }
     };
-    loadProfileImage();
+    loadProfileData();
   }, []);
 
   // Simpan foto profil ke AsyncStorage
@@ -67,12 +77,39 @@ const Profile = () => {
     );
   };
 
+  const handleSaveUsername = async () => {
+    if (!usernameInput.trim()) {
+      Alert.alert('Error', 'Username tidak boleh kosong');
+      return;
+    }
+    await AsyncStorage.setItem('USERNAME', usernameInput);
+    setUsername(usernameInput);
+    setEditingUsername(false);
+  };
+
   return (
     <View style={styles.root}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation && navigation.goBack()}>
         <Text style={styles.backIcon}>{'<'}</Text>
       </TouchableOpacity>
       <Text style={styles.title}>Your Account</Text>
+      {username && !editingUsername && (
+        <Text style={styles.username}>{username}</Text>
+      )}
+      {editingUsername && (
+        <View style={styles.usernameInputContainer}>
+          <TextInput
+            style={styles.usernameInput}
+            placeholder="Masukkan Username"
+            placeholderTextColor="#A0522D"
+            value={usernameInput}
+            onChangeText={setUsernameInput}
+          />
+          <TouchableOpacity style={styles.saveButton} onPress={handleSaveUsername}>
+            <Text style={styles.saveButtonText}>Simpan Username</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <TouchableOpacity style={styles.iconWrapper} onPress={pickImage}>
         {profileImage ? (
           <Image source={{ uri: profileImage }} style={styles.profileImage} />
@@ -120,6 +157,42 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: 0.5,
     lineHeight: 40,
+  },
+  username: {
+    fontSize: 20,
+    color: '#A0522D',
+    fontFamily: 'Poppins-Medium',
+    marginBottom: 16,
+  },
+  usernameInputContainer: {
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  usernameInput: {
+    backgroundColor: '#FFF6EB',
+    borderColor: '#A0522D',
+    borderWidth: 2,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    color: '#A0522D',
+    fontFamily: 'Poppins-Regular',
+    width: '80%',
+    marginBottom: 8,
+  },
+  saveButton: {
+    backgroundColor: '#A0522D',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  saveButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontFamily: 'Poppins-Medium',
   },
   iconWrapper: {
     backgroundColor: '#000',
